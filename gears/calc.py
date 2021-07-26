@@ -1,13 +1,16 @@
 """Functions for calculating gear things and stuff
 """
 
+from __future__ import annotations
+
+
 def calc_gear_ratio(
-    teeth_ring_one, 
-    teeth_sun_one,
-    teeth_planet_one, 
-    teeth_ring_two,
-    teeth_sun_two,
-    teeth_planet_two):
+    teeth_ring_one: int, 
+    teeth_sun_one: int,
+    teeth_planet_one: int, 
+    teeth_ring_two: int,
+    teeth_sun_two: int,
+    teeth_planet_two: int):
     """Calculate the gear ratio of a two stage gearbox
 
     Args:
@@ -30,17 +33,25 @@ def calc_gear_ratio(
 
     return 1 / ratio
 
-def calc_module_two(module_one, teeth_sun_one, teeth_planet_one, teeth_sun_two, teeth_planet_two):
-    """Calculate module (size) of the second stage
+
+def calc_module_with_diameter(outer_diameter: int | float, num_teeth: int):
+    """An estimated module, mostly for spur gears
 
     Args:
-        module_one (integer): module size of first stage
-        teeth_sun_one (integer): num teeth in first stage sun
-        teeth_planet_one (integer): num teeth in each first stage planet
-        teeth_sun_two (integer): num teeth in second stage sun
-        teeth_planet_two (integer): num teeth in each second stage planet
+        outer_diameter (number): outside diameter (tip of tooth)
+        num_teeth (integer): number of teeth
 
     Returns:
-        number: the module size to use for second stage
+        number: module
     """
-    return module_one * (teeth_sun_one + teeth_planet_one) / (teeth_sun_two + teeth_planet_two)
+    # PD = M * Z
+    # OD = 2M + PD, assumes square area of tooth
+    # so, M = OD/2Z
+
+    return outer_diameter / (2*num_teeth)
+
+def calc_pitch_diameter(num_teeth: int, module: int | float):
+    return num_teeth * module
+
+def calc_outside_diameter(pitch_diameter: int | float, module: int | float):
+    return pitch_diameter + 2*module

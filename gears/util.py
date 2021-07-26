@@ -1,6 +1,7 @@
 import math
+from typing import Tuple
 
-def range_around(goal_val, spread, min_val = 0, max_val = math.inf):
+def range_around(goal_val: int, spread: int, min_val: int = 0, max_val: int = math.inf):
     """Get a range near a goal value
 
     Args:
@@ -15,3 +16,6 @@ def range_around(goal_val, spread, min_val = 0, max_val = math.inf):
     lower = max(min_val, goal_val - spread)
     upper = min(max_val, goal_val + spread)
     return (lower, upper)
+
+def is_between(num: int, range: Tuple[int, int]):
+    return range[0] <= num <= range[1]
